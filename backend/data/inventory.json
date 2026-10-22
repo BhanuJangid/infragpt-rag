@@ -1,0 +1,102 @@
+{
+  "vcenter": {
+    "clusters": [
+      {"name": "prod-west-01", "hosts": 8, "ha": true, "drs": true},
+      {"name": "prod-east-01", "hosts": 6, "ha": true, "drs": true},
+      {"name": "lab-shared", "hosts": 3, "ha": false, "drs": false}
+    ],
+    "vms": [
+      {
+        "name": "payments-api-01",
+        "cluster": "prod-west-01",
+        "host": "esxi-w-04",
+        "guest_os": "Ubuntu 22.04",
+        "cpu": 8,
+        "memory_gb": 32,
+        "power_state": "poweredOn",
+        "ip": "10.12.4.21",
+        "snapshot": false
+      },
+      {
+        "name": "payments-api-02",
+        "cluster": "prod-west-01",
+        "host": "esxi-w-05",
+        "guest_os": "Ubuntu 22.04",
+        "cpu": 8,
+        "memory_gb": 32,
+        "power_state": "poweredOn",
+        "ip": "10.12.4.22",
+        "snapshot": false
+      },
+      {
+        "name": "checkout-web-01",
+        "cluster": "prod-east-01",
+        "host": "esxi-e-02",
+        "guest_os": "RHEL 9",
+        "cpu": 4,
+        "memory_gb": 16,
+        "power_state": "poweredOn",
+        "ip": "10.18.2.40",
+        "snapshot": true
+      },
+      {
+        "name": "batch-etl-01",
+        "cluster": "prod-west-01",
+        "host": "esxi-w-07",
+        "guest_os": "Ubuntu 22.04",
+        "cpu": 16,
+        "memory_gb": 64,
+        "power_state": "poweredOff",
+        "ip": null,
+        "snapshot": true
+      },
+      {
+        "name": "jump-lab-01",
+        "cluster": "lab-shared",
+        "host": "esxi-lab-01",
+        "guest_os": "Windows Server 2022",
+        "cpu": 2,
+        "memory_gb": 8,
+        "power_state": "suspended",
+        "ip": "10.90.1.10",
+        "snapshot": false
+      }
+    ]
+  },
+  "nutanix": {
+    "clusters": [
+      {"name": "prism-prod-a", "nodes": 4, "hypervisor": "AHV", "version": "6.8"},
+      {"name": "prism-dr-b", "nodes": 3, "hypervisor": "AHV", "version": "6.8"}
+    ],
+    "capacity": {
+      "cpu_used_pct": 61,
+      "memory_used_pct": 74,
+      "storage_used_pct": 58,
+      "storage_free_tb": 42.5,
+      "compression_ratio": 2.1
+    },
+    "alerts": [
+      {
+        "id": "NTNX-1042",
+        "severity": "warning",
+        "cluster": "prism-prod-a",
+        "title": "CVM memory usage above 80%",
+        "since": "2026-01-14T09:12:00Z"
+      },
+      {
+        "id": "NTNX-1108",
+        "severity": "critical",
+        "cluster": "prism-prod-a",
+        "title": "Disk in node 3 reported predictive failure",
+        "since": "2026-01-18T02:41:00Z"
+      },
+      {
+        "id": "NTNX-0988",
+        "severity": "info",
+        "cluster": "prism-dr-b",
+        "title": "Replication lag recovered under 5 minutes",
+        "since": "2026-01-19T16:03:00Z"
+      }
+    ]
+  }
+}
